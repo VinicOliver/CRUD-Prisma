@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Estado {
+  id        Int     @id       @default(autoincrement())
+  name      String  @unique
+
+  @@map("estado")
+  cidade Cidade[]
+}
+
+model Cidade {
+  id        Int     @id       @default(autoincrement())
+  name      String  @unique
+  state     Estado  @relation(fields: [id_estado], references: [id])
+  id_estado Int 
+
+  @@map("cidade")
+}
