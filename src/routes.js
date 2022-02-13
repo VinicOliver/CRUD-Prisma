@@ -1,40 +1,31 @@
 const express = require('express');
-const stateController = require('./controllers/stateController/stateController.js');
-const cityController = require('./controllers/cityController/cityController.js');
-
 const router = express.Router();
 
-// Rotas de estado
+// City's Controllers
+const createCityController = require('./controllers/cityController/createCityController.js');
+const findCityController = require('./controllers/cityController/findCityController.js');
+const deleteCityController = require('./controllers/cityController/deleteCityController.js');
+const updateCityController = require('./controllers/cityController/updateCityController.js');
 
-/*
-router.get('/registrar-estado', stateController.createState);
-router.get('/atualizar-estado/:id', stateController.updateState);
-router.get('/estados', stateController.readState);
-router.get('/excluir-estado/:id', stateController.deleteState);
-*/
-
-// Rotas de cidade
-
-/*
-router.get('/registrar-cidade', cityController.createCity);
-router.get('/atualizar-cidade/:id', cityController.updateCity);
-router.get('/cidades', cityController.readCity);
-router.get('/excluir-cidade/:id', cityController.deleteCity);
-*/
+// State's Controllers
+const createStateController = require('./controllers/stateController/createStateController.js');
+const findStateController = require('./controllers/stateController/findStateController.js');
+const deleteStateController = require('./controllers/stateController/deleteStateController.js');
+const updateStateController = require('./controllers/stateController/updateStateController.js');
 
 // Rotas de estado
 
-router.post('/registrar-estado', stateController.createState);
-router.get('/estados', stateController.readState);
-router.put('/atualizar-estado/:id', stateController.updateState);
-router.delete('/excluir-estado/:id', stateController.deleteState);
+router.post('/estado', createStateController.createState);
+router.get('/estado', findStateController.readState);
+router.put('/estado/:id', updateStateController.updateState);
+router.delete('/estado/:id', deleteStateController.deleteState);
 
 // Rotas de cidade
 
-router.post('/registrar-cidade', cityController.createCity);
-router.put('/atualizar-cidade/:id', cityController.updateCity);
-router.get('/cidades', cityController.readCity);
-router.delete('/excluir-cidade/:id', cityController.deleteCity);
+router.post('/cidade', createCityController.createCity);
+router.get('/cidade', findCityController.readCity);
+router.put('/cidade/:id', updateCityController.updateCity);
+router.delete('/cidade/:id', deleteCityController.deleteCity);
 
 
 module.exports = router;

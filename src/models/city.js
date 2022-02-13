@@ -4,56 +4,70 @@ const prisma = new PrismaClient();
 
 class City {
 
-    async create(req, res) {
+    async create(name, id) {
         
-        let newCity = req.body.name;
+        let id_state = parseInt(id);
         
         try {
             const cityCreated = await prisma.cidade.create({
                 data: {
-                    name: newCity,
-                    state: { connect: { id: 2 } }
+                    name: name,
+                    state: { connect: { id: id_state } }
                 }
             });
     
-            res.json(cityCreated);
+            return cityCreated;
         } catch (error) {
             console.log(error);
-            res.send('Erro');
+            return 'Erro';
         }
     }
 
-    update(req, res) {
-        res.send('Cidade atualizada com sucesso!');
+    async update(id, name) {
+
+        let city_id = Number(id);
+        let newName = name;
+
+        try {
+            const city = await prisma.cidade.update({
+                where: { id: city_id },
+                data: { name: newName }
+            });
+
+            return city;
+        } catch (error) {
+            console.log(error);
+            return 'Erro';
+        }
     }
 
-    async read(req, res) {
+    async read() {
 
         try {
             const cities = await prisma.cidade.findMany({
                 include: { state: true }
             });
 
-            res.json(cities);    
+            return cities;    
         } catch (error) {
             console.log(error);
-            res.json("Erro!");
+            return 'Erro';
         }
     }
 
-    async delete(req, res) {
+    async delete(id) {
 
-        const id = Number(req.params.id);
+        const city_id = Number(id);
 
         try {
             let cityDeleted = await prisma.cidade.delete({
-                where: { id }
+                where: { city_id }
             });
 
-            res.json(cityDeleted);
+            return cityDeleted;
         } catch (error) {
             console.log(error);
-            res.json("Erro!");
+            return 'Erro';
         }
     }
 }

@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 
 class State {
 
-    async create(req, res) {
+    async create(name) {
         
-        let state = req.body.name;
+        let state = name;
 
         try {
             const stateCreated = await prisma.estado.create({
@@ -15,53 +15,55 @@ class State {
                 }
             });
     
-            res.json(stateCreated);    
+            return stateCreated;   
         } catch (error) {
             console.log(error);
-            res.json("Erro!");
+            return 'Erro';
         }
     }
 
-    async update(req, res) {
+    async update(id, name) {
         
-        const id = Number(req.params.id);
-        const newName = req.body.name;
+        const state_id = parseInt(id);
+        const newName = name;
 
         try {
             const state = await prisma.estado.update({
-                where: { id },
+                where: { id: state_id },
                 data: { name: newName }
             });
-            res.json(state);
+
+            return state;
         } catch (error) {
             console.log(error);
-            res.json("Erro!");
+            return 'Erro';
         }
     }
 
-    async read(req, res) {
+    async read() {
         
         try {
             const states = await prisma.estado.findMany();
-            res.json(states);    
+
+            return states;    
         } catch (error) {
             console.log(error);
-            res.json("Erro!");
+            return 'Erro';
         }
     }
 
-    async delete(req, res) {
-
-        const id = Number(req.params.id);
+    async delete(id) {
+        const state_id = parseInt(id);
 
         try {
             let stateDeleted = await prisma.estado.delete({
-                where: { id }
+                where: { id: state_id }
             });
-            res.json(stateDeleted);
+
+            return stateDeleted;
         } catch (error) {
             console.log(error);
-            res.json("Erro!");
+            return 'Erro';
         }
     }
 }
